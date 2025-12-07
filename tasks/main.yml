@@ -1,3 +1,12 @@
-#SPDX-License-Identifier: MIT-0
 ---
 # tasks file for lighthouse-role
+- name: Clone lighthouse repository
+  ansible.builtin.git:
+    repo: "{{ lighthouse_repo }}"
+    dest: "{{ lighthouse_dir }}"
+
+- name: Configure nginx for lighthouse
+  ansible.builtin.template:
+    src: templates/lighthouse_nginx.conf.j2
+    dest: /etc/nginx/sites-enabled/default
+  notify: Restart nginx
